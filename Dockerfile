@@ -135,7 +135,7 @@ RUN mkdir -p /imagick_source \
     && ./configure \
     && make \
     && make install \
-    && rm -Rf /imagick_source \
+    && rm -Rf /imagick_source
 
 RUN mkdir -p /usr/src/php/ext/imagick \
     && curl https://pecl.php.net/get/imagick-3.1.2.tgz -o imagick.tgz \
