@@ -106,3 +106,39 @@ RUN docker-php-ext-configure gd --with-png-dir=/usr --with-jpeg-dir=/usr \
 RUN docker-php-ext-install imap gd pdo_mysql mbstring mysqli pdo_mysql wddx zip bz2 \
       calendar exif ftp gettext shmop sockets xsl
 
+
+RUN mkdir -p /usr/src/php/ext/opcache \
+      && curl http://pecl.php.net/get/zendopcache-7.0.5.tgz -o zend.tgz \
+      && tar -xof zend.tgz -C /usr/src/php/ext/opcache --strip-components=1 \
+      && rm zend.tgz* \
+      && docker-php-ext-install opcache
+
+RUN { \
+		echo 'opcache.memory_consumption=128'; \
+		echo 'opcache.interned_strings_buffer=8'; \
+		echo 'opcache.max_accelerated_files=4000'; \
+		echo 'opcache.revalidate_freq=60'; \
+		echo 'opcache.fast_shutdown=1'; \
+		echo 'opcache.enable_cli=1'; \
+	} > /usr/local/etc/php/conf.d/opcache-recommended.ini
+
+RUN { \
+    	echo 'zend_extension=/usr/local/lib/php/extensions/no-debug-non-zts-20090626/opcache.so'; \
+    } > /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini
+
+
+RUN mkdir -p /imagick_source \
+          && curl http://www.imagemagick.org/download/ImageMagick-6.9.2-5.tar.gz -o imagemagick.tar.gz \
+          && tar -xof imagemagick.tar.gz -C /imagick_source --strip-components=1 \
+          && rm imagemagick.tar.gz* \
+          && cd /imagick_source \
+          && ./configure \
+          && make \
+          && make install \
+          && rm -Rf /imagick_source \
+
+RUN mkdir -p /usr/src/php/ext/imagick \
+      && curl https://pecl.php.net/get/imagick-3.1.2.tgz -o imagick.tgz \
+      && tar -xof imagick.tgz -C /usr/src/php/ext/imagick --strip-components=1 \
+      && rm imagick.tgz* \
+      && docker-php-ext-install imagick
