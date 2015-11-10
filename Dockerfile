@@ -1,4 +1,4 @@
-FROM ubuntu:trusty
+FROM debian:jessie
 
 MAINTAINER Mario Young <maye.co@gmail.com>
 
