@@ -64,7 +64,7 @@ RUN buildDeps=" \
                 xz-utils \
       " \
       && set -x \
-      && apt-get update && apt-get install -y $buildDeps --no-install-recommends && rm -rf /var/lib/apt/lists/*
+      && apt-get update && apt-get install -y $buildDeps --no-install-recommends && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN curl -SL "http://php.net/get/php-${PHP_VERSION}.tar.xz/from/this/mirror" -o php.tar.xz \
       && curl -SL "http://php.net/get/php-${PHP_VERSION}.tar.xz.asc/from/this/mirror" -o php.tar.xz.asc \
@@ -92,3 +92,4 @@ RUN curl -SL "http://php.net/get/php-${PHP_VERSION}.tar.xz/from/this/mirror" -o 
       && { find /usr/local/bin /usr/local/sbin -type f -executable -exec strip --strip-all '{}' + || true; } \
       && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false -o APT::AutoRemove::SuggestsImportant=false $buildDeps \
       && make clean
+
