@@ -93,3 +93,16 @@ RUN curl -SL "http://php.net/get/php-${PHP_VERSION}.tar.xz/from/this/mirror" -o 
       && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false -o APT::AutoRemove::SuggestsImportant=false $buildDeps \
       && make clean
 
+COPY docker-php-* /usr/local/bin/
+
+RUN apt-get update && apt-get install -y libkrb5-dev libc-client-dev libpng12-dev libjpeg-dev libpq-dev \
+      libmagickwand-dev libmagickcore-dev libxslt1-dev libbz2-dev \
+	  && apt-get clean \
+      && rm -rf /var/lib/apt/lists/*
+
+RUN docker-php-ext-configure gd --with-png-dir=/usr --with-jpeg-dir=/usr \
+      && docker-php-ext-configure imap --with-kerberos --with-imap-ssl
+
+RUN docker-php-ext-install imap gd pdo_mysql mbstring mysqli pdo_mysql wddx zip bz2 \
+      calendar exif ftp gettext shmop sockets xsl
+
