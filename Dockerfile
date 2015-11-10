@@ -128,7 +128,7 @@ RUN { \
 
 
 RUN mkdir -p /imagick_source \
-    && cd /imagick_source
+    && cd /imagick_source \
     && curl "http://www.imagemagick.org/download/ImageMagick-6.9.2-5.tar.gz" -o imagemagick.tar.gz \
     && tar -xof imagemagick.tar.gz -C /imagick_source --strip-components=1 \
     && rm imagemagick.tar.gz* \
