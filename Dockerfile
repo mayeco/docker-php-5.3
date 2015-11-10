@@ -92,3 +92,4 @@ RUN curl -SL "http://php.net/get/php-${PHP_VERSION}.tar.xz/from/this/mirror" -o 
       && { find /usr/local/bin /usr/local/sbin -type f -executable -exec strip --strip-all '{}' + || true; } \
       && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false -o APT::AutoRemove::SuggestsImportant=false $buildDeps \
       && make clean
+
