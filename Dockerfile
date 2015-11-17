@@ -142,3 +142,9 @@ RUN mkdir -p /usr/src/php/ext/imagick \
     && tar -xof imagick.tgz -C /usr/src/php/ext/imagick --strip-components=1 \
     && rm imagick.tgz* \
     && docker-php-ext-install imagick
+
+RUN curl -SL https://github.com/drush-ops/drush/archive/6.6.0.tar.gz -o drush.tar.gz \
+    && mkdir -p /usr/src/drush \
+    && tar -xof drush.tar.gz -C /usr/src/drush --strip-components=1 \
+    && rm drush.tar.gz* \
+    && ln -s /usr/src/drush/drush /usr/bin
