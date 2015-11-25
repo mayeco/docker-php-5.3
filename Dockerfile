@@ -45,7 +45,9 @@ RUN OPENSSL_VERSION="1.0.2d" \
         && gpg --verify openssl.tar.gz.asc \
         && tar -xzf openssl.tar.gz -C openssl --strip-components=1 \
         && cd /tmp/openssl \
-        && ./config && make && make install \
+        && ./config && make \
+        && make install \
+        && make clean \
         && rm -rf /tmp/*
 
 ENV PHP_VERSION 5.3.29
@@ -133,6 +135,7 @@ RUN mkdir -p /imagick_source \
     && ./configure \
     && make \
     && make install \
+    && make clean \
     && rm -Rf /imagick_source
 
 RUN mkdir -p /usr/src/php/ext/imagick \
